@@ -117,7 +117,7 @@ if (!$hasData) {
     <div class="analytics-card <?php echo $leakageClass; ?>">
 
         <div class="analytics-label">
-            Opportunity Leakage
+            Profit Capture Rate
         </div>
 
         <div class="analytics-status tier-badge">

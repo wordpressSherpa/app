@@ -231,17 +231,17 @@ if (($totalRealizedR + $totalMissedR) > 0) {
 }
 
 $leakageClass = 'leakage-good';
-$leakageTitle = '⚡⚡⚡ ELITE ';
+$leakageTitle = '🔥 Fully Captured';
 
 if ($leakagePercent >= 40) {
 
     $leakageClass = 'leakage-alert';
-    $leakageTitle = '⚠️ CRITICAL';
+    $leakageTitle = '📈 Growth Opportunity';
 
 } elseif ($leakagePercent >= 20) {
 
     $leakageClass = 'leakage-caution';
-    $leakageTitle = '🚨 WARNING';
+    $leakageTitle = '💰 More Available';
 }
 
 /* ==========================
@@ -301,14 +301,20 @@ $captureLabel = "⚡ Elite Capture";
 $captureClass = "elite-card";
 
 if ($leakagePercent >= 40) {
-    $captureLabel = "🚨 Major Leakage";
+
+    $captureLabel = "📈 Growth Opportunity";
     $captureClass = "danger-card";
+
 } elseif ($leakagePercent >= 30) {
-    $captureLabel = "⚠ Leakage Risk";
+
+    $captureLabel = "💰 More Available";
     $captureClass = "warning-card";
+
 } elseif ($leakagePercent >= 20) {
+
     $captureLabel = "✓ Solid Capture";
     $captureClass = "solid-card";
+
 }
 
 /* ==========================
