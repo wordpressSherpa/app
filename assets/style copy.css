@@ -421,7 +421,7 @@ body {
 ========================= */
 
 .container {
-    max-width: 1600px !important;
+    max-width: 1200px !important;
     margin: 0 auto;
 }
 
@@ -530,263 +530,13 @@ button[type="submit"] {
     width: 25%;
     min-width: 220px;
 
-    margin: 0px auto 0;
+    margin: 20px auto 0;
 
     cursor: pointer;
 }
 
 button[type="submit"]:hover {
     transform: translateY(-2px);
-}
-
-/* =========================
-   page-trades.php 
-========================= */
-
-.page-title{
-    margin:0 0 30px;
-    font-size:52px;
-    font-weight:800;
-}
-
-.page-trades{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:25px;
-    align-items:start;
-    margin-top:40px;
-    align-items: stretch;
-
-}
-
-.analysis-card{
-    display: flex;
-    flex-direction: column;
-    background:#101214;
-    border:1px solid #1b2026;
-    border-radius:12px;
-    padding:24px;
-
-}
-
-.analysis-card h2{
-    margin:0 0 20px;
-    font-size:20px;
-    margin-bottom:40px;
-}
-
-.analysis-summary{
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    margin-bottom:25px;
-
-}
-
-.summary-row{
-
-      display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    padding: 12px 14px;
-    margin-bottom: 10px;
-
-    border-radius: 8px;
-    border: 1px solid rgba(255,255,255,.05);
-
-    color: #fff;
-
-}
-
-.summary-row:last-child{
-
-    border:none;
-
-}
-
-.trade-table{
-
-    width:100%;
-    border-collapse:collapse;
-    margin-top:15px;
-
-}
-
-.trade-table th{
-
-    text-align:left;
-    padding:12px;
-    border-bottom:1px solid #262c33;
-    font-size:13px;
-    text-transform:uppercase;
-
-}
-
-.trade-table td{
-
-    padding:12px;
-    border-bottom:1px solid rgba(255,255,255,.05);
-
-}
-
-.trade-table tr:hover{
-
-    background:#171b20;
-
-}
-
-canvas{
-
-    margin-top:20px;
-    max-height:280px;
-
-}
-
-.analysis-card{
-    background:#111417;
-    border:1px solid #202733;
-    border-top:4px solid #6f5cff;
-    border-radius:14px;
-    padding:24px;
-    box-shadow:0 8px 20px rgba(0,0,0,.25);
-}
-
-.loss-card{
-    border-top-color:#ff6b6b;
-}
-
-.be-card{
-    border-top-color:#f5b642;
-}
-
-.history-card{
-    border-top-color:#4cc9f0;
-}
-
-/* Trade Loss Analysis Column */
-
-/* Total Row */
-
-.summary-total-wrapper {
-    margin-top: auto;
-    padding-top: 24px;
-}
-
-.summary-total {
-    background: rgba(255,255,255,.05);
-    border: 1px solid rgba(255,255,255,.08);
-    padding: 16px;
-    border-radius: 10px;
-}
-
-.summary-total strong {
-    font-size: 26px;
-}
-
-/* Category Colors */
-.market-row {
-    background: rgba(76, 175, 255, 0.12);
-    border-left: 4px solid #4cafef;
-}
-
-.behavior-row {
-    background: rgba(255, 184, 77, 0.12);
-    border-left: 4px solid #ffb84d;
-}
-
-.model-row {
-    background: rgba(91, 214, 153, 0.12);
-    border-left: 4px solid #5bd699;
-}
-
-.summary-total {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    margin-bottom: 28px;
-    padding-bottom: 16px;
-
-    border-bottom: 2px solid #2b313b;
-
-    font-size: 1.1rem;
-    font-weight: 700;
-}
-
-.loss-bar {
-    margin-bottom: 22px;
-    background: #1b2027;
-
-    border: 1px solid #2b313b;
-
-    border-radius: 10px;
-
-    padding: 16px;
-
-    margin-bottom: 16px;
-
-    transition: all .2s ease;
-
-}
-
-.loss-bar:hover {
-
-    border-color: #3a4352;
-
-    background: #212731;
-
-}
-
-.loss-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    margin-bottom: 8px;
-
-    font-size: .95rem;
-    font-weight: 600;
-}
-
-.bar-track {
-    width: 100%;
-    height: 10px;
-
-    background: #252b34;
-
-    border-radius: 999px;
-
-    overflow: hidden;
-}
-
-.bar-fill {
-    height: 100%;
-    border-radius: 999px;
-
-    transition: width .35s ease;
-}
-
-.bar-fill.market {
-    background: #ff6363;
-}
-
-.bar-fill.behavior {
-    background: #f6c453;
-}
-
-.bar-fill.model {
-    background: #57c7ff;
-}
-
-/* Break Even Trades Column */
-
-.bar-fill.profitable {
-    background: #22c55e;
-}
-
-.bar-fill.expense {
-    background: #ef4444;
 }
 
 /* =========================
@@ -2152,6 +1902,120 @@ h4.trade-heading {
 }
 
 /* ==========================
+   P&L Selector - Day Results Page
+========================== */
+
+.pnl-selector {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.pnl-option {
+    cursor: pointer;
+}
+
+.pnl-option input {
+    display: none;
+}
+
+.pnl-option {
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: 1px solid #2f3a4d;
+    background: #0d1014;
+    font-weight: 700;
+    transition: .15s;
+}
+
+.pnl-option:hover {
+    transform: translateY(-2px);
+}
+
+.pnl-option input:checked+span {
+    color: white;
+}
+
+.green-option {
+    color: #4ade80;
+}
+
+.breakeven-option {
+    color: #d1d5db;
+}
+
+.flat-option {
+    color: #93c5fd;
+}
+
+.red-option {
+    color: #f87171;
+}
+
+.pnl-option {
+
+    cursor: pointer;
+
+    transition: .15s;
+
+    border: 2px solid transparent;
+}
+
+.pnl-option:hover {
+
+    transform: translateY(-2px);
+}
+
+/* Selected State */
+
+input[type="radio"] {
+    display: none;
+}
+
+input[type="radio"]:checked+.pnl-option {
+
+    border: 2px solid #ffffff;
+
+    box-shadow:
+        0 0 0 3px rgba(255, 255, 255, .15),
+        0 0 20px rgba(255, 255, 255, .15);
+
+    transform: translateY(-2px);
+}
+
+/* Delete Day */
+.delete-button {
+
+    width: 100%;
+
+    margin-top: 12px;
+
+    background: #dc2626;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 10px;
+
+    padding: 14px;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.delete-button:hover {
+
+    background: #b91c1c;
+}
+
+
+/* ==========================
    Top Header
 ========================== */
 
@@ -3074,13 +2938,10 @@ input[type="radio"]:checked+.pnl-option {
 
 /* Delete Day */
 .delete-button {
-    display: block;
 
-    width: 25%;
-    min-width: 220px;
+    width: 100%;
 
-    margin: 0px auto 0;
-
+    margin-top: 12px;
 
     background: #dc2626;
 

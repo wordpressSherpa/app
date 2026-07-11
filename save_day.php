@@ -121,7 +121,9 @@ foreach ($_POST['sessions'] as $session) {
             round($sessionScore, 2),
 
         'pnl_result' =>
-            'Flat'
+            'Flat',
+        
+        'trades' => $session['trades'] ?? []
     ];
 }
 
@@ -304,13 +306,14 @@ if ($result->num_rows > 0) {
         $conn->insert_id;
 }
 
+
 /*
 |--------------------------------------------------------------------------
 | Save Sessions
 |--------------------------------------------------------------------------
 */
 
-foreach ($sessionData as $session) {
+foreach ($sessionData as $sessionIndex => $session) {
     $stmt = $conn->prepare("
         INSERT INTO session_scores
         (
@@ -348,6 +351,59 @@ foreach ($sessionData as $session) {
     );
 
     $stmt->execute();
+
+    if ($stmt->error) {
+        die($stmt->error);
+    }
+
+    $sessionId = $conn->insert_id;
+
+    if (!empty($_POST['sessions'][$sessionIndex]['trades'])) {
+
+        foreach ($_POST['sessions'][$sessionIndex]['trades'] as $tradeIndex => $trade) {
+
+            $outcome = $trade['outcome'] ?? '';
+
+            if ($outcome == '') {
+                continue;
+            }
+
+            $reason = !empty($trade['primary_reason'])
+                ? $trade['primary_reason']
+                : null;
+
+            $beOutcome = !empty($trade['be_outcome'])
+                ? $trade['be_outcome']
+                : null;
+
+            $tradeStmt = $conn->prepare("
+            INSERT INTO trades
+            (
+                session_id,
+                trade_number,
+                outcome,
+                primary_reason,
+                be_outcome
+            )
+            VALUES
+            (?, ?, ?, ?, ?)
+        ");
+
+            $tradeNumber = $tradeIndex + 1;
+
+            $tradeStmt->bind_param(
+                "iisss",
+                $sessionId,
+                $tradeNumber,
+                $outcome,
+                $reason,
+                $beOutcome
+            );
+            $tradeStmt->execute();
+
+        }
+
+    }
 }
 
 /*

@@ -29,16 +29,40 @@ if ($dailyResult && $dailyResult->num_rows > 0) {
 
        $dailyId = $dailyRow['id'];
 
+       // Load session data for the day
        $sessionQuery = "
-    SELECT *
-    FROM session_scores
-    WHERE daily_id = $dailyId
-    ";
+              SELECT *
+              FROM session_scores
+              WHERE daily_id = $dailyId
+       ";
 
        $sessionResult = $conn->query($sessionQuery);
 
        while ($row = $sessionResult->fetch_assoc()) {
               $sessionData[$row['session_name']] = $row;
+       }
+
+       // Load trades for each session
+       $tradeData = [];
+       $tradeQuery = "
+              SELECT
+              t.*,
+              s.session_name
+              FROM trades t
+              JOIN session_scores s
+              ON t.session_id = s.id
+              WHERE s.daily_id = $dailyId
+              ORDER BY
+              s.id,
+              t.trade_number
+       ";
+
+       $tradeResult = $conn->query($tradeQuery);
+
+       while ($row = $tradeResult->fetch_assoc()) {
+
+              $tradeData[$row['session_name']][$row['trade_number']] = $row;
+
        }
 }
 
@@ -57,7 +81,7 @@ $journalResult = $conn->query($journalQuery);
 $journals = [];
 
 while ($row = $journalResult->fetch_assoc()) {
-    $journals[] = $row;
+       $journals[] = $row;
 }
 
 ?>
@@ -128,83 +152,70 @@ while ($row = $journalResult->fetch_assoc()) {
 
                             </div>
 
+
                             <div class="session-body">
+
                                    <input type="hidden" name="sessions[<?php echo $index; ?>][name]"
                                           value="<?php echo $session; ?>">
 
-                                   <label>Rules Followed</label>
+                                   <div class="session-layout">
 
-                                   <input type="number" min="0" max="100" name="sessions[<?php echo $index; ?>][rules]"
-                                          value="<?php echo $currentData['rules_followed'] ?? ''; ?>">
+                                          <!-- LEFT COLUMN -->
+                                          <div class="session-metrics">
 
-                                   <label>Emotional Control</label>
+                                                 <label>Rules Followed</label>
 
-                                   <input type="number" min="0" max="100" name="sessions[<?php echo $index; ?>][emotion]"
-                                          value="<?php echo $currentData['emotional_control'] ?? ''; ?>">
+                                                 <input type="number" min="0" max="100"
+                                                        name="sessions[<?php echo $index; ?>][rules]"
+                                                        value="<?php echo $currentData['rules_followed'] ?? ''; ?>">
 
-                                   <label>Setup Quality</label>
+                                                 <label>Emotional Control</label>
 
-                                   <input type="number" min="0" max="100" name="sessions[<?php echo $index; ?>][setup]"
-                                          value="<?php echo $currentData['setup_quality'] ?? ''; ?>">
+                                                 <input type="number" min="0" max="100"
+                                                        name="sessions[<?php echo $index; ?>][emotion]"
+                                                        value="<?php echo $currentData['emotional_control'] ?? ''; ?>">
 
-                                   <label>Context Quality</label>
+                                                 <label>Setup Quality</label>
 
-                                   <input type="number" min="0" max="100" name="sessions[<?php echo $index; ?>][context]"
-                                          value="<?php echo $currentData['context_quality'] ?? ''; ?>">
+                                                 <input type="number" min="0" max="100"
+                                                        name="sessions[<?php echo $index; ?>][setup]"
+                                                        value="<?php echo $currentData['setup_quality'] ?? ''; ?>">
 
-                                   <label>Execution / Management</label>
+                                                 <label>Context Quality</label>
 
-                                   <input type="number" min="0" max="100" name="sessions[<?php echo $index; ?>][execution]"
-                                          value="<?php echo $currentData['execution_management'] ?? ''; ?>">
+                                                 <input type="number" min="0" max="100"
+                                                        name="sessions[<?php echo $index; ?>][context]"
+                                                        value="<?php echo $currentData['context_quality'] ?? ''; ?>">
 
-                                   <label>Realized R</label>
+                                                 <label>Execution / Management</label>
 
-                                   <input type="number" step="0.01" name="sessions[<?php echo $index; ?>][realized_r]"
-                                          value="<?php echo $currentData['realized_r'] ?? ''; ?>">
+                                                 <input type="number" min="0" max="100"
+                                                        name="sessions[<?php echo $index; ?>][execution]"
+                                                        value="<?php echo $currentData['execution_management'] ?? ''; ?>">
 
-                                   <label>Missed R</label>
+                                                 <label>Realized R</label>
 
-                                   <input type="number" step="0.01" name="sessions[<?php echo $index; ?>][missed_r]"
-                                          value="<?php echo $currentData['missed_r'] ?? ''; ?>">
+                                                 <input type="number" step="0.01"
+                                                        name="sessions[<?php echo $index; ?>][realized_r]"
+                                                        value="<?php echo $currentData['realized_r'] ?? ''; ?>">
 
+                                                 <label>Missed R</label>
 
-                                   <?php /* <label>P&L Result</label>
+                                                 <input type="number" step="0.01"
+                                                        name="sessions[<?php echo $index; ?>][missed_r]"
+                                                        value="<?php echo $currentData['missed_r'] ?? ''; ?>">
 
-                                                 <div class="pnl-selector">
+                                          </div>
 
-                                                        <?php
-                                                        $currentPnl =
-                                                               $currentData['pnl_result']
-                                                               ?? '';
-                                                        ?>
+                                          <!-- RIGHT COLUMN -->
+                                          <div class="session-trades">
 
-                                                        <label class="pnl-option green-option">
-                                                               <input type="radio" name="sessions[<?php echo $index; ?>][pnl_result]"
-                                                                      value="green" <?php if ($currentPnl == 'Green')
-                                                                             echo 'checked'; ?>
-                                                               >
-                                                               🟢 Green
-                                                        </label>
+                                                 <?php include 'includes/day-trade.php'; ?>
 
-                                                        <label class="pnl-option breakeven-option">
-                                                               <input type="radio" name="sessions[<?php echo $index; ?>][pnl_result]"
-                                                                      value="breakeven" <?php if ($currentPnl == 'Break Even')
-                                                                             echo 'checked'; ?>
-                                                               >
-                                                               ⚪ Break Even
-                                                        </label>
+                                          </div>
 
-                                                        <label class="pnl-option red-option">
-                                                               <input type="radio" name="sessions[<?php echo $index; ?>][pnl_result]"
-                                                                      value="red" <?php if ($currentPnl == 'Red')
-                                                                             echo 'checked'; ?>
-                                                               >
-                                                               🔴 Red
-                                                        </label> 
-
-                                                 </div>*/ ?>
+                                   </div>
                             </div>
-
                      </div>
 
               <?php endforeach; ?>

@@ -30,7 +30,7 @@
 
             <div>
                 <div class="brand-title">
-                    <a href="/scorecard/">The Consistency Lab</a>
+                    <a href="/scorecard/app">The Consistency Lab</a>
                 </div>
 
                 <div class="brand-subtitle">
@@ -78,14 +78,14 @@
 
     <div id="sidebar" class="sidebar open">
 
-        <a href="/scorecard" class="nav-item active">
+        <a href="/scorecard/app" class="nav-item active">
             <span>📖</span>
             <span>Journal</span>
         </a>
 
-        <a href="/scorecard/statistics.php" class="nav-item">
+        <a href="/scorecard/app/page-trades.php" class="nav-item">
             <span>📊</span>
-            <span>Statistics</span>
+            <span>Trades</span>
         </a>
 
         <div class="sidebar-footer">
